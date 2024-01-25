@@ -1,29 +1,26 @@
-use schemars::JsonSchema;
+use cosmwasm_std::{Addr, Uint128};
 use serde::{Deserialize, Serialize};
 
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq, JsonSchema)]
-pub struct InstantiateMsg {
-      pub count: i32,
-}
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
+pub struct InstantiateMsg {}
 
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq, JsonSchema)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 #[serde(rename_all = "snake_case")]
 pub enum ExecuteMsg {
-    Increment {},
-    Reset {
-      count: i32
-    },
+    Join { name: String, secret: Uint128 },
+    RollDice {},
+    Leave {},
 }
 
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq, JsonSchema)]
-#[serde(rename_all = "snake_case")]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 pub enum QueryMsg {
-    // GetCount returns the current count as a json-encoded number
-    GetCount {},
+    WhoWon {},
 }
 
-// We define a custom struct for each query response
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq, JsonSchema)]
-pub struct CountResponse {
-    pub count: i32,
+/// We define a custom struct for each query response
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
+pub struct WinnerResponse {
+    pub name: String,
+    pub addr: Addr,
+    pub dice_roll: u8,
 }
